@@ -23,4 +23,10 @@ export class ProductsService {
     const product = await this.productModel.create({ ...createProductDto })
     return product
   }
+
+  async deleteProduct(id: string): Promise<number> {
+    const product = await this.getProductById(id)
+
+    return await this.productModel.destroy({ where: { id: product.id } })
+  }
 }
