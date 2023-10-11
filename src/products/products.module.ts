@@ -2,9 +2,11 @@ import { Module } from "@nestjs/common"
 import { ProductsController } from "./products.controller"
 import { ProductsService } from "./products.service"
 import { AuthModule } from "src/auth/auth.module"
+import { SequelizeModule } from "@nestjs/sequelize"
+import { Product } from "./models/product.model"
 
 @Module({
-  imports: [AuthModule],
+  imports: [SequelizeModule.forFeature([Product]), AuthModule],
   controllers: [ProductsController],
   providers: [ProductsService],
 })
