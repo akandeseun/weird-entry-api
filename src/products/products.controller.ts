@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   Param,
+  Patch,
   Post,
   UseGuards,
   ValidationPipe,
@@ -12,6 +13,7 @@ import {
 import { AuthGuard } from "@nestjs/passport"
 import { ProductsService } from "./products.service"
 import { CreateProductDto } from "./dto/create-product.dto"
+import { UpdateProductDto } from "./dto/update-product.dto"
 
 @Controller("products")
 @UseGuards(AuthGuard())
@@ -30,6 +32,14 @@ export class ProductsController {
   @Post("new")
   createProduct(@Body(ValidationPipe) createProductDto: CreateProductDto) {
     return this.productsService.createProduct(createProductDto)
+  }
+
+  @Patch(":id")
+  updateProduct(
+    @Body(ValidationPipe) updateProductDto: UpdateProductDto,
+    @Param("id") id: string,
+  ) {
+    return this.productsService.updateProduct(id, updateProductDto)
   }
 
   @Delete(":id")
