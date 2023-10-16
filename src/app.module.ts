@@ -8,6 +8,7 @@ import { SequelizeModule } from "@nestjs/sequelize"
 import { ProductsModule } from './products/products.module';
 import { CartsModule } from './carts/carts.module';
 import { WishlistsModule } from './wishlists/wishlists.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { WishlistsModule } from './wishlists/wishlists.module';
     ProductsModule,
     CartsModule,
     WishlistsModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService],
