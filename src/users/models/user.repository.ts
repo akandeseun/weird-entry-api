@@ -1,8 +1,13 @@
-import { Injectable, NotFoundException } from "@nestjs/common"
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common"
 import { InjectModel } from "@nestjs/sequelize"
 import { User } from "./user.model"
 import { RegisterUserDto } from "../dto/register-user.dto"
 import * as bcrypt from "@phc/bcrypt"
+import { UniqueConstraintError } from "sequelize"
 
 @Injectable()
 export class UserRepository {
@@ -16,7 +21,9 @@ export class UserRepository {
     try {
       await this.userModel.create({ ...final })
     } catch (error) {
-      console.log(error)
+      // console.log(error)
+      if (error instanceof UniqueConstraintError)
+        throw new ConflictException("user with email exists ")
     }
 
     // const { password, ...result } = user
