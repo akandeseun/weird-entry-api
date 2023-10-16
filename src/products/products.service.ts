@@ -1,7 +1,12 @@
-import { Injectable, NotFoundException } from "@nestjs/common"
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common"
 import { InjectModel } from "@nestjs/sequelize"
 import { Product } from "./models/product.model"
 import { CreateProductDto } from "./dto/create-product.dto"
+import { UpdateProductDto } from "./dto/update-product.dto"
 
 @Injectable()
 export class ProductsService {
@@ -21,6 +26,20 @@ export class ProductsService {
 
   async createProduct(createProductDto: CreateProductDto): Promise<Product> {
     const product = await this.productModel.create({ ...createProductDto })
+    return product
+  }
+
+  async updateProduct(id, updateProductDto: UpdateProductDto) {
+    const foundProduct = await this.getProductById(id)
+
+    if (Object.keys(updateProductDto).length < 1)
+      throw new BadRequestException("Body cannot be empty")
+
+    const product = await this.productModel.update(
+      { ...updateProductDto },
+      { where: { foundProduct } },
+    )
+
     return product
   }
 
