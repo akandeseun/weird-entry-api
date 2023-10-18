@@ -20,7 +20,7 @@ module.exports = {
       userId: {
         type: Sequelize.DataTypes.UUID,
         references: {
-          model: "Users",
+          model: "users",
           key: "id",
         },
         onUpdate: "CASCADE",
@@ -36,5 +36,6 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
+    await queryInterface.dropTable("wishlists")
   },
 }

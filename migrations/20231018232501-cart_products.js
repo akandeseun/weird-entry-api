@@ -2,20 +2,33 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("carts", {
+    await queryInterface.createTable("cart_products", {
       id: {
         type: Sequelize.DataTypes.UUID,
         defaultValue: Sequelize.DataTypes.UUIDV4,
         primaryKey: true,
       },
-      userId: {
+      cartId: {
         type: Sequelize.DataTypes.UUID,
         references: {
-          model: "users",
+          model: "carts",
           key: "id",
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
+      },
+      productId: {
+        type: Sequelize.DataTypes.UUID,
+        references: {
+          model: "products",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
+      quantity: {
+        type: Sequelize.DataTypes.INTEGER,
+        defaultValue: 1,
       },
     })
   },
@@ -26,7 +39,8 @@ module.exports = {
      *
      * Example:
      * await queryInterface.dropTable('users');
+     *
      */
-    await queryInterface.dropTable("carts")
+    await queryInterface.dropTable("cart_products")
   },
 }
